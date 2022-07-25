@@ -4,33 +4,36 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewexamplo.adapter.SuperHeroAdapter
 import com.example.recyclerviewexamplo.databinding.ActivityMainBinding
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private var mutableSuperHeroList = mutableListOf<SuperHero>()
+    private lateinit var adapter: SuperHeroAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        mutableSuperHeroList = SuperHeroProvider.superheroList.toMutableList()
         setContentView(binding.root)
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
+        adapter = SuperHeroAdapter(mutableSuperHeroList,
+            onClickListener = { superhero -> onItemSelected(superhero) },
+            onItemDeleted = { position -> onItemDeleted(position) })
+
         val manager = LinearLayoutManager(this)
         binding.recyclerSuperHero.layoutManager = manager
-        binding.recyclerSuperHero.adapter =
-            SuperHeroAdapter(SuperHeroProvider.superheroList) { superhero ->
-                onItemSelected(
-                    superhero
-                )
-            }
+        binding.recyclerSuperHero.adapter = adapter
+    }
+
+    private fun onItemDeleted(position: Int) {
+        mutableSuperHeroList.removeAt(position)
+        adapter.notifyItemRemoved(position)
     }
 
     fun onItemSelected(superHero: SuperHero) {

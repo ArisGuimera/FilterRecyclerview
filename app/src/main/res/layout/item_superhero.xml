@@ -37,5 +37,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tvRealName"
         tools:text="Aris" />
 
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="BORRAR"
+        android:backgroundTint="@color/Red"
+        app:layout_constraintStart_toEndOf="@+id/ivSuperHero"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
