@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/ivSuperHero"
+        android:layout_height="150dp"
+        android:layout_width="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/black" />
+
+    <TextView
+        android:id="@+id/tvSuperHeroName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/ivSuperHero"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="KotlinMan" />
+
+    <TextView
+        android:id="@+id/tvRealName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/ivSuperHero"
+        app:layout_constraintTop_toBottomOf="@+id/tvSuperHeroName"
+        tools:text="Aris" />
+
+    <TextView
+        android:id="@+id/tvPublisher"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/ivSuperHero"
+        app:layout_constraintTop_toBottomOf="@+id/tvRealName"
+        tools:text="Aris" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
