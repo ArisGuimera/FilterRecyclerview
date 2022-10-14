@@ -14,7 +14,7 @@ class SuperHeroViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun render(
         superHeroModel: SuperHero,
         onClickListener: (SuperHero) -> Unit,
-        onItemDeleted: (Int) -> Unit
+        onClickDelete: (Int) -> Unit
     ) {
         binding.tvSuperHeroName.text = superHeroModel.superhero
         binding.tvRealName.text = superHeroModel.realName
@@ -22,6 +22,6 @@ class SuperHeroViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         Glide.with(binding.ivSuperHero.context).load(superHeroModel.photo).into(binding.ivSuperHero)
         binding.ivSuperHero.setOnClickListener { onClickListener(superHeroModel) }
         itemView.setOnClickListener { Toast.makeText(itemView.context, "KotlinMan", Toast.LENGTH_SHORT).show()}
-        binding.btnDelete.setOnClickListener { onItemDeleted(adapterPosition) }
+        binding.btnDelete.setOnClickListener {  onClickDelete(adapterPosition) }
     }
 }

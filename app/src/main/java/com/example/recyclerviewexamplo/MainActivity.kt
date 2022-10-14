@@ -3,6 +3,7 @@ package com.example.recyclerviewexamplo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerviewexamplo.adapter.SuperHeroAdapter
 import com.example.recyclerviewexamplo.databinding.ActivityMainBinding
@@ -11,42 +12,55 @@ import com.example.recyclerviewexamplo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var mutableSuperHeroList = mutableListOf<SuperHero>()
+    private var superHeroMutableList: MutableList<SuperHero> =
+        SuperHeroProvider.superheroList.toMutableList()
     private lateinit var adapter: SuperHeroAdapter
-    private val manager = LinearLayoutManager(this)
+    private val llmanager = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        mutableSuperHeroList = SuperHeroProvider.superheroList.toMutableList()
         setContentView(binding.root)
-        binding.btnAdd.setOnClickListener { addSuperHero() }
+        binding.etFilter.addTextChangedListener { userFilter ->
+            val superheroesFiltered =
+                superHeroMutableList.filter { superhero ->
+                    superhero.superhero.lowercase().contains(userFilter.toString().lowercase())
+                }
+            adapter.updateSuperHeroes(superheroesFiltered)
+        }
         initRecyclerView()
     }
 
-    private fun addSuperHero() {
-        val superhero = SuperHero("Random", "Marvel", "Pepito", "https://pbs.twimg.com/media/DOgfDmmXcAACDTm.jpg")
-        mutableSuperHeroList.add(7, superhero)
-        adapter.notifyItemInserted(7)
-        manager.scrollToPosition(7)
+    private fun createSuperHero() {
+        val superHero = SuperHero(
+            "Incognito",
+            "AristiDevsCorporation",
+            "???????",
+            "https://pbs.twimg.com/profile_images/1037281659727634432/5x2XVPwB_400x400.jpg"
+        )
+
+        superHeroMutableList.add(index = 3, superHero)
+        adapter.notifyItemInserted(3)
+        llmanager.scrollToPositionWithOffset(3, 10)
     }
 
     private fun initRecyclerView() {
-        adapter = SuperHeroAdapter(mutableSuperHeroList,
+        adapter = SuperHeroAdapter(
+            superheroList = superHeroMutableList,
             onClickListener = { superhero -> onItemSelected(superhero) },
-            onItemDeleted = { position -> onItemDeleted(position) })
-
-
-        binding.recyclerSuperHero.layoutManager = manager
+            onClickDelete = { position -> onDeletedItem(position) }
+        )
+        binding.recyclerSuperHero.layoutManager = llmanager
         binding.recyclerSuperHero.adapter = adapter
+
     }
 
-    private fun onItemDeleted(position: Int) {
-        mutableSuperHeroList.removeAt(position)
+    private fun onDeletedItem(position: Int) {
+        superHeroMutableList.removeAt(position)
         adapter.notifyItemRemoved(position)
     }
 
-    fun onItemSelected(superHero: SuperHero) {
+    private fun onItemSelected(superHero: SuperHero) {
         Toast.makeText(this, superHero.realName, Toast.LENGTH_SHORT).show()
     }
 }
