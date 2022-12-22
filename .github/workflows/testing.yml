@@ -11,7 +11,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: gradle8
+          cache: gradle
         
       # Execute unit tests
       - name: Unit Test
